@@ -92,8 +92,7 @@ class textstatistics:
 
 	def smog_index(self, text):
 		if self.sentence_count(text)>=3:			
-			poly_syllab = self.polysyllabcount(text)
-			#SMOG = 3.129 + round(poly_syllab**.5) 
+			poly_syllab = self.polysyllabcount(text)			
 			SMOG = (1.043 * (30*(poly_syllab/self.sentence_count(text)))**.5) + 3.1291
 			return round(SMOG,1)
 
@@ -167,7 +166,7 @@ class textstatistics:
 		grade = 0.4*(self.avg_sentence_length(text) + per_diff_words)
 		return grade
 
-	def text_standard(self,text):
+	def readability_consensus(self,text):
 		grade = []
 		################################################ Appending Flesch Kincaid Grade ########################################################################
 		lower = round(self.flesch_kincaid_grade(text))
@@ -209,10 +208,27 @@ class textstatistics:
 		grade.append(int(lower))
 		grade.append(int(upper))
 		###################################################### Appending Dale_Chall_Readability_Score ########################################################################	
-		lower = round(self.dale_chall_readability_score(text))
-		upper = math.ceil(self.dale_chall_readability_score(text))
-		grade.append(int(lower))
-		grade.append(int(upper))
+		dale_chall_score = self.dale_chall_readability_score(text)
+		if dale_chall_score <= 4.9:
+			grade.append(4)
+		elif dale_chall_score <=5.9 and dale_chall_score >= 5.0:
+			grade.append(5)
+			grade.append(6)
+		elif dale_chall_score <=6.9 and dale_chall_score >= 6.0:
+			grade.append(7)
+			grade.append(8)
+		elif dale_chall_score <=7.9 and dale_chall_score >= 7.0:
+			grade.append(9)
+			grade.append(10)
+		elif dale_chall_score <=8.9 and dale_chall_score >= 8.0:
+			grade.append(11)
+			grade.append(12)
+		elif dale_chall_score <=9.9 and dale_chall_score >= 9.0:
+			grade.append(13)
+			grade.append(14)
+			grade.append(15)
+		else:
+			grade.append(16)
 		###################################################### Appending Linsear_Write_Formula ########################################################################	
 		lower = round(self.linsear_write_formula(text))
 		upper = math.ceil(self.linsear_write_formula(text))
